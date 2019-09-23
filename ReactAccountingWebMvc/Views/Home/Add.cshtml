@@ -1,0 +1,39 @@
+﻿@using ReactAccountingWebMvc.Domain.Models
+
+@using Microsoft.AspNetCore.Identity
+@{
+    ViewData["Title"] = "Index";
+}
+@model ReactAccountingWebMvc.Domain.Account
+@*@inject UserManager<ApplicationUser> UserManager*@
+
+<form method="post" action="/home/add">
+    <h3>Accounting</h3>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span2">
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <br /><p>Create account</p>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="UserId" class="form-control" /><br />
+                        <input type="text" name="name" class="form-control" placeholder="Name"><br />
+                        <select id="type" name="type" class="form-control" placeholder="Category">
+                            <option value="">Type</option>
+                            <option>Income</option>
+                            <option>Outcome</option>
+                        </select><br />
+                        <input type="text" name="balance" class="form-control" placeholder="Balance"><br />
+                        <button type="submit" class="btn btn-success">Save</button><br /><br />
+                    </div>
+                    <div class="Span10">
+                        <br /><br /><p>Данная база данных предназначена для ежедневного учета доходов и расходов пользователей.<p />
+                        <p>Добавьте название для вашего счета. Вы можете создать несколько счетов (кошелек, банковский счет и т.п.)<p />
+                        <p>В поле Balance отразите текущее состояние вашего счета.<p />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

@@ -1,0 +1,52 @@
+﻿@model ReactAccountingWebMvc.Domain.Models.Transaction
+
+@{
+    ViewData["Title"] = "Add";
+}
+
+
+<form method="post" action="/transaction/add">
+    <h3>Accounting</h3>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span2">
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <br /><p>Create transaction</p>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="AccountId" class="form-control" />
+                        <span asp-validation-for="AccountId" class="text-danger"></span><br />
+
+                        <input type="text" name="FromAccountName" class="form-control" placeholder="@Model.FromAccountName"><br />
+
+                        <select id="type" name="type" class="form-control" placeholder="Category">
+                            <option value="">Type</option>
+                            <option>Income</option>
+                            <option>Outcome</option>
+                        </select><br />
+
+                        <select id="ToAccountId" name="ToAccountName" class="form-control" placeholder="To account">
+                            <option value="">To Account</option>
+                            @foreach (var account in ViewBag.ToAccounts)
+                            {
+                                <option>
+                                    @account.Name
+                                </option>
+                            }
+                        </select><br />
+
+                        <input type="text" name="count" class="form-control" placeholder="Count"><br />
+                        <input type="text" name="comment" class="form-control" placeholder="Comment"><br />
+                        <button type="submit" class="btn btn-success" onclick="location.href=/transaction/add">Add</button>
+                    </div>
+                    <div class="Span10">
+                        <br /><br /><p>Выберите категорию транзакции в поле Category.<p />
+                        <p>Введите сумму транзакции в поле Count.<p />
+                        <p>В поле Comment оставляйте свои заметки.<p />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

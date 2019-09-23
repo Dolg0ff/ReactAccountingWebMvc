@@ -1,0 +1,113 @@
+﻿@using ReactAccountingWebMvc.Domain.Models
+@using Microsoft.AspNetCore.Identity
+@{
+    ViewData["Title"] = "Index";
+}
+ 
+@model ReactAccountingWebMvc.Domain.Models.Transaction
+@inject UserManager<ApplicationUser> UserManager
+
+
+    <section class="page-section" id="accounting">
+        <div class="container">
+            <h2 class="text-center mt-0">At Your Service</h2>
+            <hr class="divider my-4">
+            <div class="row">
+                <table class="table">
+                    <tr>
+                        <td>
+                        <h3>Accounting</h3>
+                        <table class="table">
+                            <thead class="bg-success"> 
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Balance</th>
+                                    <th scope="col">Transaction</th>  
+                                </tr>
+                            </thead>
+                            @foreach (var account in ViewBag.AccountsIn)
+                            {
+                                <tbody>
+                                    <tr>
+                                        <td><p>@account.Name</p></td>
+                                        <td><p>@account.Balance</p></td>
+                                        <td><a href="/transaction/add/@account.Id">Add</a></td>
+                                    </tr>
+                                </tbody>
+                            }
+                        </table>
+                        <h3>Expenses</h3>
+                        <table class="table">
+                            <thead class="bg-danger">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Balance</th>
+                                    @*<th scope="col">Cashback</th>*@
+                                </tr>
+                            </thead>
+                            @foreach (var account in ViewBag.AccountsOut)
+                            {
+                                <tbody>
+                                    <tr>
+                                        <td><p>@account.Name</p></td>
+                                        <td><p>@account.Balance</p></td>
+                                        @*<td><a href="/transaction/add/@account.Id">Add</a></td>*@
+                                    </tr>
+                                </tbody>
+                            }
+                        </table>
+
+                        <a href="/home/add/@UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result.Id.ToString()">Create Account</a>
+                        </td>
+                        <td>
+                        <h3>Transactions</h3>
+                        <table class="table">
+                            <thead class="bg-success">
+                                <tr>
+                                    <th scope="col">To</th>
+                                    <th scope="col">Count</th>
+                                    <th scope="col">Date</th>
+                                </tr>
+                            </thead>
+                            @foreach (var transaction in ViewBag.TransactionsIn)
+                            {
+                                <tbody>
+                                    <tr>
+                                        <td><p>@transaction.FromAccountName</p></td>
+                                        <td><p>@transaction.Count</p></td>
+                                        <td><p>@transaction.Date</p></td>
+                                    </tr>
+                                </tbody>
+                            }
+                        </table>
+
+
+                        <table class="table">
+                            <thead class="bg-danger">
+                                <tr>
+                                    <th scope="col">From</th>
+                                    <th scope="col">To</th>
+                                    <th scope="col">Count</th>
+                                    <th scope="col">Date</th>
+                                </tr>
+                            </thead>
+                            @foreach (var transaction in ViewBag.TransactionsOut)
+                            {
+                                <tbody>
+                                    <tr>
+                                        <td><p>@transaction.FromAccountName</p></td>
+                                        <td><p>@transaction.ToAccountName</p></td>
+                                        <td><p><a>-</a>@transaction.Count</p></td>
+                                        <td><p>@transaction.Date</p></td>
+                                    </tr>
+                                </tbody>
+                            }
+                        </table>
+                        </td>
+                        </tr>
+                    </table>
+                    </div>
+            </div>
+    </section>
+
+

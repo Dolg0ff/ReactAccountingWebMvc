@@ -1,0 +1,68 @@
+﻿@model RegisterViewModel
+
+<section id="intro" class="clearfix">
+	<div class="container">
+
+	</div>
+</section><!-- #intro -->
+<!-- container -->
+
+
+
+<main id="main">
+	<!--==========================
+	  About Us Section
+	============================-->
+	<section id="about">
+		<div class="container">
+
+			<div class="row">
+
+				<!-- Article main content -->
+				<article class="col-xs-12 maincontent">
+					<header class="page-header">
+						<h1 class="page-title">Регистрация</h1>
+					</header>
+
+					<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<h3 class="thin text-center">Создать новый аккаунт</h3>
+								<p class="text-center text-muted">Создайте нового пользователя или <a asp-action="Login">войдите</a> в аккаунт используя свой логин и пароль. </p>
+								<hr>
+
+								<form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+									<h4>Создать новый аккаунт</h4>
+									<hr />
+									<div asp-validation-summary="All" class="text-danger"></div>
+									<div class="form-group">
+										<label asp-for="Email">Почта</label>
+										<input asp-for="Email" class="form-control" />
+										<span asp-validation-for="Email" class="text-danger"></span>
+									</div>
+									<div class="form-group">
+										<label asp-for="Password">Пароль</label>
+										<input asp-for="Password" class="form-control" />
+										<span asp-validation-for="Password" class="text-danger"></span>
+									</div>
+									<div class="form-group">
+										<label asp-for="ConfirmPassword">Подтверждение пароля</label>
+										<input asp-for="ConfirmPassword" class="form-control" />
+										<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+									</div>
+									<button type="submit" class="btn btn-action">Зарегестрировать</button>
+								</form>
+							</div>
+						</div>
+
+					</div>
+
+				</article>
+				<!-- /Article -->
+
+			</div>
+		</div>	<!-- /container -->
+	</section><!-- #about -->
+</main>
+
+<a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
