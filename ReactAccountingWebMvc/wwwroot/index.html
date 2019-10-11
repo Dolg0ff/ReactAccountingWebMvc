@@ -2,13 +2,27 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Hello React</title>
+    <title>React</title>
 </head>
 <body>
+
     <div id="content"></div>
     <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
     <script src="js/app.jsx"></script>
+    <script>
+        fetch('https://localhost:5001/api/accounts', { mode: 'no-cors' }).then(result => {
+      console.log(result.json());
+    });
+    </script>
 </body>
 </html>
+
+<!--fetch('https://localhost:5001/api/accounts')
+            .then(result => result.json())
+            .then((result) => {
+                this.setState({
+                    arrayAccount: result
+                })
+            });-->

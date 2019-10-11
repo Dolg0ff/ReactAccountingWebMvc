@@ -27,21 +27,16 @@ namespace ReactAccountingWebMvc.Controllers
         }
 
         // POST api/accounts
-        [HttpPost]
-        public void Add(Account account)
+        [HttpPost("add")]
+        public IActionResult Add([FromBody]Account account)
         {
+            account.UserId = "8d330a12-43ae-4b14-b93b-a2b12cb6feda";
+            account.Id = Guid.NewGuid();
             accountService.Add(account);
+            return Ok(account);
         }
 
-        // GET api/accounts
-        //[HttpGet]
-        //public IActionResult Add(String id)
-        //{
-        //    var account = new Account() { UserId = id };
-        //    return Ok(account);
-        //}
-
-        // PUT api/values/5
+        // PUT api/accounts
         [HttpPut("{id}")]
         public IActionResult Update(Guid id)
         {
@@ -49,14 +44,14 @@ namespace ReactAccountingWebMvc.Controllers
             return Ok(account);
         }
 
-        // DELETE api/accounts/5
+        // DELETE api/accounts
         [HttpDelete("{id}")]
         public void Delete(Guid id)
         {
             accountService.Delete(id);
         }
 
-        // GET api/accounts/5
+        // GET api/accounts
         [HttpGet("{id}")]
         public IActionResult Details(Guid id)
         {

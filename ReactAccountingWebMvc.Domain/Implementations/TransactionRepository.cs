@@ -10,7 +10,6 @@ namespace ReactAccountingWebMvc.Domain.Implementations
 {
     public class TransactionRepository : ITransactionRepository
     {
-
         private readonly ApplicationContext db;
         public TransactionRepository(ApplicationContext context)
         {
@@ -33,10 +32,6 @@ namespace ReactAccountingWebMvc.Domain.Implementations
                             toAcc.Balance -= transaction.Count;
                         }
                     }
-                    //else
-                    //{
-
-                    //}
                     break;
                 case TransactionType.Outcome:
                     fromAcc.Balance -= transaction.Count;

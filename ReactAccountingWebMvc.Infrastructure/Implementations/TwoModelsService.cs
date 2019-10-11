@@ -8,7 +8,6 @@ namespace ReactAccountingWebMvc.Infrastructure.Implementations
 {
     public class TwoModelsService : ITwoModelsService
     {
-
         private ITwoModelsRepository twoModelsRepository;
         public TwoModelsService(ITwoModelsRepository twoModelsRepository)
         {

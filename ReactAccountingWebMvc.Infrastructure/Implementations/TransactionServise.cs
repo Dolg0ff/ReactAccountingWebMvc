@@ -22,7 +22,6 @@ namespace ReactAccountingWebMvc.Infrastructure.Implementations
                 return;
             }
             transaction.Date = DateTime.Now;
-
             this.transactionRepository.Add(transaction);
         }
 

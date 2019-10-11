@@ -22,6 +22,7 @@ using ReactAccountingWebMvc.Domain.Models;
 using React.AspNet;
 using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 using JavaScriptEngineSwitcher.ChakraCore;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 
 namespace ReactAccountingWebMvc
 {
@@ -43,16 +44,25 @@ namespace ReactAccountingWebMvc
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            services.AddCors(options => {
+                options.AddPolicy("AllowAll",
+                   builder => {
+                       builder.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
+                   });
+            });
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAllOrigin"));
+            });
             services.AddTransient<UserManager<IdentityUser>>();
-            //
             services.AddTransient<ITransactionService, TransactionService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<ITransactionRepository, TransactionRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
-            //
             services.AddTransient<ITwoModelsService, TwoModelsService>();
             services.AddTransient<ITwoModelsRepository, TwoModelsRepository>();
-            //
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -68,19 +78,23 @@ namespace ReactAccountingWebMvc
             })
             .AddEntityFrameworkStores<ApplicationContext>()
             .AddDefaultTokenProviders();
-            //services.AddDefaultIdentity<IdentityUser>()
-            //    .AddEntityFrameworkStores<ApplicationContext>();
+
             services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName)
             .AddChakraCore();
             services.AddMemoryCache();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddReact();
+            services.Configure<MvcOptions>(options => {
+                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAll"));
+            });
             return services.BuildServiceProvider();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -102,6 +116,7 @@ namespace ReactAccountingWebMvc
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            app.UseCors("AllowAll");
         }
     }
 }

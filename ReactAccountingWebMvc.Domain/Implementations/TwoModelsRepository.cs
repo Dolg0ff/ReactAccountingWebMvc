@@ -9,7 +9,6 @@ namespace ReactAccountingWebMvc.Domain.Implementations
 {
     public class TwoModelsRepository : ITwoModelsRepository
     {
-
         private readonly ApplicationContext db;
         public TwoModelsRepository(ApplicationContext context)
         {

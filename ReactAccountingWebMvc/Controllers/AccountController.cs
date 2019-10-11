@@ -41,18 +41,6 @@ namespace ReactAccountingWebMvc.Controllers
         [TempData]
         public string ErrorMessage { get; set; }
 
-        //[HttpGet]
-        //[AllowAnonymous]
-        //public IActionResult Login(string returnUrl = null)
-        //{
-        //    return Redirect("http://statanly.com/Account/Login");
-        //    // Clear the existing external cookie to ensure a clean login process
-        //    //await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
-        //    //ViewData["ReturnUrl"] = returnUrl;
-        //    //return View();
-        //}
-
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
@@ -61,8 +49,7 @@ namespace ReactAccountingWebMvc.Controllers
             {
                 return RedirectToAction("Index", "TwoModels");
             }
-            //return Redirect("http://statanly.com/Account/Login");
-            //Clear the existing external cookie to ensure a clean login process
+
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             ViewData["ReturnUrl"] = returnUrl;
@@ -454,7 +441,6 @@ namespace ReactAccountingWebMvc.Controllers
         {
             return View();
         }
-
 
         [HttpGet]
         public IActionResult AccessDenied()

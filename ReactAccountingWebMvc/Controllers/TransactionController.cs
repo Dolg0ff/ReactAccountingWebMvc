@@ -8,13 +8,10 @@ using ReactAccountingWebMvc.Domain.Models;
 using ReactAccountingWebMvc.Infrastructure;
 using ReactAccountingWebMvc.Web.Models;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace ReactAccountingWebMvc.Controllers
 {
     public class TransactionController : Controller
     {
-
         ITransactionService transactionService;
         public TransactionController(ITransactionService transactionService)
         {
@@ -38,7 +35,6 @@ namespace ReactAccountingWebMvc.Controllers
             transaction.FromAccountId = transaction.AccountId;
             transactionService.Add(transaction);
             return RedirectToAction("add");
-            //"~/Views/TwoModels/Index.cshtml"
         }
 
         [HttpGet]
@@ -57,14 +53,12 @@ namespace ReactAccountingWebMvc.Controllers
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 

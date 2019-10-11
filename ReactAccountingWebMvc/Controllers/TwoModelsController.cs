@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ReactAccountingWebMvc.Infrastructure;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace ReactAccountingWebMvc.Controllers
 {
     public class TwoModelsController : Controller
