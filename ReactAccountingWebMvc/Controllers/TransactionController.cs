@@ -49,28 +49,5 @@ namespace ReactAccountingWebMvc.Controllers
             ViewBag.ToAccounts = transactionService.AllAccounts().Where(a => a.Name != transaction.FromAccountName);
             return View(transaction);
         }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

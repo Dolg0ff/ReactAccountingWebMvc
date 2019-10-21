@@ -23,6 +23,7 @@ using React.AspNet;
 using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 using JavaScriptEngineSwitcher.ChakraCore;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
+using System.Security.Principal;
 
 namespace ReactAccountingWebMvc
 {
@@ -63,21 +64,24 @@ namespace ReactAccountingWebMvc
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<ITwoModelsService, TwoModelsService>();
             services.AddTransient<ITwoModelsRepository, TwoModelsRepository>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-            {
-                // Password settings
-                options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 3;
-                options.Password.RequiredUniqueChars = 2;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-            })
-            .AddEntityFrameworkStores<ApplicationContext>()
-            .AddDefaultTokenProviders();
+            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationContext>();
+            //services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            //{
+            //    // Password settings
+            //    options.Password.RequireDigit = false;
+            //    options.Password.RequiredLength = 3;
+            //    options.Password.RequiredUniqueChars = 2;
+            //    options.Password.RequireLowercase = false;
+            //    options.Password.RequireNonAlphanumeric = false;
+            //    options.Password.RequireUppercase = false;
+            //})
+            //.AddEntityFrameworkStores<ApplicationContext>()
+            //.AddDefaultTokenProviders();
 
             services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName)
             .AddChakraCore();

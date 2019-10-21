@@ -2,11 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReactAccountingWebMvc.Domain.Models
 {
+    //[Table("Transactions",Schema ="dbo")]
     public class Transaction
     {
+        //[Key]
         //depositing money into accounts
         public Guid Id { get; set; }
         public double Count { get; set; }
