@@ -9,15 +9,22 @@ using ReactAccountingWebMvc.Infrastructure.Interfaces;
 using ReactAccountingWebMvc.Domain;
 using ReactAccountingWebMvc.Models;
 using ReactAccountingWebMvc.Web.Models;
+using ReactAccountingWebMvc.Domain.Models;
 
 namespace Accounting.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+
+ 
+
         IAccountService accountService;
-        public HomeController(IAccountService accountSevice)
+        public HomeController(IAccountService accountSevice,
+             UserManager<ApplicationUser> userManager)
         {
             this.accountService = accountSevice;
+            _userManager = userManager;
         }
 
         [HttpPost]
@@ -26,6 +33,19 @@ namespace Accounting.Web.Controllers
             accountService.Add(account);
             return RedirectToAction("index");
         }
+
+        //[HttpPost]
+        //public async Task<IActionResult> Add(Account account)
+        //{
+        //    ApplicationUser user = await this._userManager.GetUserAsync(HttpContext.User);
+        //    //SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();
+
+        //    //account.UserId = "8d330a12-43ae-4b14-b93b-a2b12cb6feda";
+        //    account.UserId = user.Id;
+        //    account.Id = Guid.NewGuid();
+        //    accountService.Add(account);
+        //    return RedirectToAction("index");
+        //}
 
         [HttpGet]
         public IActionResult Add(String id)

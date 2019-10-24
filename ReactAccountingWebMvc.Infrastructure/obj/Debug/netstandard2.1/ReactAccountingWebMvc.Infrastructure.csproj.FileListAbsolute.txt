@@ -1,0 +1,11 @@
+C:\Users\Юрий\Projects\ReactAccountingWebMvc\ReactAccountingWebMvc.Infrastructure\bin\Debug\netstandard2.1\ReactAccountingWebMvc.Infrastructure.deps.json
+C:\Users\Юрий\Projects\ReactAccountingWebMvc\ReactAccountingWebMvc.Infrastructure\bin\Debug\netstandard2.1\ReactAccountingWebMvc.Infrastructure.dll
+C:\Users\Юрий\Projects\ReactAccountingWebMvc\ReactAccountingWebMvc.Infrastructure\bin\Debug\netstandard2.1\ReactAccountingWebMvc.Infrastructure.pdb
+C:\Users\Юрий\Projects\ReactAccountingWebMvc\ReactAccountingWebMvc.Infrastructure\bin\Debug\netstandard2.1\ReactAccountingWebMvc.Domain.dll
+C:\Users\Юрий\Projects\ReactAccountingWebMvc\ReactAccountingWebMvc.Infrastructure\bin\Debug\netstandard2.1\ReactAccountingWebMvc.Domain.pdb
+C:\Users\Юрий\Projects\ReactAccountingWebMvc\ReactAccountingWebMvc.Infrastructure\obj\Debug\netstandard2.1\ReactAccountingWebMvc.Infrastructure.csprojAssemblyReference.cache
+C:\Users\Юрий\Projects\ReactAccountingWebMvc\ReactAccountingWebMvc.Infrastructure\obj\Debug\netstandard2.1\ReactAccountingWebMvc.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\Юрий\Projects\ReactAccountingWebMvc\ReactAccountingWebMvc.Infrastructure\obj\Debug\netstandard2.1\ReactAccountingWebMvc.Infrastructure.AssemblyInfo.cs
+C:\Users\Юрий\Projects\ReactAccountingWebMvc\ReactAccountingWebMvc.Infrastructure\obj\Debug\netstandard2.1\ReactAccountingWebMvc.Infrastructure.csproj.CopyComplete
+C:\Users\Юрий\Projects\ReactAccountingWebMvc\ReactAccountingWebMvc.Infrastructure\obj\Debug\netstandard2.1\ReactAccountingWebMvc.Infrastructure.dll
+C:\Users\Юрий\Projects\ReactAccountingWebMvc\ReactAccountingWebMvc.Infrastructure\obj\Debug\netstandard2.1\ReactAccountingWebMvc.Infrastructure.pdb

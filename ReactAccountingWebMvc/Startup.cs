@@ -22,8 +22,8 @@ using ReactAccountingWebMvc.Domain.Models;
 using React.AspNet;
 using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 using JavaScriptEngineSwitcher.ChakraCore;
-using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using System.Security.Principal;
+using Microsoft.Extensions.Hosting;
 
 namespace ReactAccountingWebMvc
 {
@@ -36,8 +36,86 @@ namespace ReactAccountingWebMvc
 
         public IConfiguration Configuration { get; }
 
+        //3263927
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddTransient<ITransactionService, TransactionService>();
+            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<ITransactionRepository, TransactionRepository>();
+            services.AddTransient<IAccountRepository, AccountRepository>();
+            services.AddTransient<ITwoModelsService, TwoModelsService>();
+            services.AddTransient<ITwoModelsRepository, TwoModelsRepository>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
+            services.AddDbContext<ApplicationContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+            
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 3;
+                options.Password.RequiredUniqueChars = 2;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            })
+                .AddEntityFrameworkStores<ApplicationContext>();
+            services.AddControllersWithViews();
+            services.AddMvc();
+            services.AddRazorPages();
+            services.AddCors(options => {
+                options.AddPolicy("AllowAll",
+                   builder => {
+                       builder.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
+                   });
+            });
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseCors("AllowAll");
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+            });
+            
+        }
+
+
+        //end 3263927
+
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void _ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -53,11 +131,23 @@ namespace ReactAccountingWebMvc
                       .AllowAnyHeader();
                    });
             });
-            services.Configure<MvcOptions>(options =>
+            //services.Configure<MvcOptions>(options =>
+            //{
+            //    options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAllOrigin"));
+            //});
+            //services.AddTransient<UserManager<IdentityUser>>();
+
+            services.AddDefaultIdentity<ApplicationUser>(options =>
             {
-                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAllOrigin"));
-            });
-            services.AddTransient<UserManager<IdentityUser>>();
+                options.SignIn.RequireConfirmedAccount = true;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 3;
+                options.Password.RequiredUniqueChars = 2;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            }).AddEntityFrameworkStores<ApplicationContext>();
+
             services.AddTransient<ITransactionService, TransactionService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<ITransactionRepository, TransactionRepository>();
@@ -69,7 +159,7 @@ namespace ReactAccountingWebMvc
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationContext>();
+            //services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationContext>();
             //services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             //{
             //    // Password settings
@@ -83,22 +173,34 @@ namespace ReactAccountingWebMvc
             //.AddEntityFrameworkStores<ApplicationContext>()
             //.AddDefaultTokenProviders();
 
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+#if DEBUG
+                options.IdleTimeout = TimeSpan.FromSeconds(90);
+#else
+				options.IdleTimeout = TimeSpan.FromMinutes(15);
+#endif
+
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SameSite = SameSiteMode.Strict;
+            });
+
             services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName)
             .AddChakraCore();
             services.AddMemoryCache();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddReact();
-            services.Configure<MvcOptions>(options => {
-                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAll"));
-            });
-            return services.BuildServiceProvider();
+            //services.Configure<MvcOptions>(options =>
+            //{
+            //    options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAll"));
+            //});
+            //return services.BuildServiceProvider();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void _Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -113,12 +215,16 @@ namespace ReactAccountingWebMvc
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthorization();
             app.UseAuthentication();
-            app.UseMvc(routes =>
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
             app.UseCors("AllowAll");
         }

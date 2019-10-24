@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ using ReactAccountingWebMvc.Infrastructure.Interfaces;
 
 namespace ReactAccountingWebMvc.Controllers
 {
+    [EnableCors("AllowAll")]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountsController : ControllerBase
@@ -33,8 +35,8 @@ namespace ReactAccountingWebMvc.Controllers
             return accountService.All();
         }
 
-        // POST api/accounts
-        [HttpPost("add")]
+        //POST api/accounts/add
+       [HttpPost("add")]
         public async Task<IActionResult> Add([FromBody]Account account)
         {
             ApplicationUser user = await this._userManager.GetUserAsync(HttpContext.User);
@@ -46,6 +48,14 @@ namespace ReactAccountingWebMvc.Controllers
             accountService.Add(account);
             return Ok(account);
         }
+
+        //[HttpPost("add")]
+        //public IActionResult Add([FromBody]Account account)
+        //{
+        //    account.Id = Guid.NewGuid();
+        //    accountService.Add(account);
+        //    return Ok(account);
+        //}
 
         // PUT api/accounts
         [HttpPut("{id}")]

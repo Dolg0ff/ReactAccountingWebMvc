@@ -26,3 +26,7 @@ Version.cs
 Version.h
 Version.cpp
 
+/DBTest/bin/Debug/netcoreapp3.0
+/DBTest/obj
+/Extensions/bin/Debug/netstandard2.0
+/Extensions/obj
